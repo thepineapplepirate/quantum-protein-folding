@@ -1,4 +1,5 @@
 # (C) Copyright IBM 2022.
+# Modified in 2026 for compatibility with Qiskit 2.x.
 #
 # This code is licensed under the Apache License, Version 2.0. You may
 # obtain a copy of this license in the LICENSE.txt file in the root directory
@@ -84,6 +85,7 @@ class ProteinPlotter:
         """
         side_positions = self._shape_gen.side_positions
         side_aminoacids = self._shape_gen.side_chain_aminoacid_list
+        side_scatter = None
         for i, side_chain in enumerate(side_positions):
             if side_chain is not None:
                 x_side, y_side, z_side = side_chain

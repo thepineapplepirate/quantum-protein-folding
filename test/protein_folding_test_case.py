@@ -1,4 +1,5 @@
 # (C) Copyright IBM 2018, 2022.
+# Modified in 2026 for compatibility with Qiskit 2.x.
 #
 # This code is licensed under the Apache License, Version 2.0. You may
 # obtain a copy of this license in the LICENSE.txt file in the root directory
@@ -17,6 +18,9 @@ import os
 import unittest
 import time
 
+import numpy as np
+from qiskit.quantum_info import SparsePauliOp
+
 # disable deprecation warnings that can cause log output overflow
 # pylint: disable=unused-argument
 
@@ -33,6 +37,14 @@ class ProteinFoldingTestCase(unittest.TestCase, ABC):
     """Protein Folding Test Case"""
 
     moduleName = None
+
+    def assertEqual(self, first, second, msg=None):  # noqa: N802
+        """Compare Pauli sums mathematically rather than by term ordering."""
+        if isinstance(first, SparsePauliOp) and isinstance(second, SparsePauliOp):
+            difference = (first - second).simplify()
+            equivalent = np.allclose(difference.coeffs, 0.0)
+            return self.assertTrue(equivalent, msg or f"{first} != {second}")
+        return super().assertEqual(first, second, msg)
 
     def setUp(self) -> None:
         self._started_at = time.time()

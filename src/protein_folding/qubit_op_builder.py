@@ -1,4 +1,5 @@
 # (C) Copyright IBM 2021, 2022.
+# Modified in 2026 for compatibility with Qiskit 2.x.
 #
 # This code is licensed under the Apache License, Version 2.0. You may
 # obtain a copy of this license in the LICENSE.txt file in the root directory
@@ -11,7 +12,7 @@
 from typing import Union
 
 import numpy as np
-from qiskit.opflow import OperatorBase, PauliOp, PauliSumOp
+from protein_folding.operators import OperatorBase, PauliOp, PauliSumOp, I, Z
 
 from .bead_contacts.contact_map import ContactMap
 from .bead_distances.distance_map import DistanceMap
@@ -103,7 +104,7 @@ class QubitOpBuilder:
 
         h_total = h_chiral + h_back + h_short + h_bbbb + h_bbsc + h_scbb + h_scsc
 
-        return h_total.reduce()
+        return h_total.simplify()
 
     def _create_turn_operators(
         self, lower_bead: BaseBead, upper_bead: BaseBead
@@ -546,7 +547,7 @@ class QubitOpBuilder:
                     )
                 )
                 composed = op1 @ op2
-                h_short += (coeff * composed).reduce()
+                h_short += (coeff * composed).simplify()
         h_short = _fix_qubits(h_short, self._has_side_chain_second_bead)
 
         return h_short

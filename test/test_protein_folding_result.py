@@ -1,4 +1,5 @@
 # (C) Copyright IBM 2021, 2022.
+# Modified in 2026 for compatibility with Qiskit 2.x.
 #
 # This code is licensed under the Apache License, Version 2.0. You may
 # obtain a copy of this license in the LICENSE.txt file in the root directory
@@ -12,7 +13,7 @@ from test.protein_folding_test_case import ProteinFoldingTestCase
 from typing import List
 from ddt import ddt, data, unpack
 
-from qiskit.utils import algorithm_globals
+from qiskit_algorithms.utils import algorithm_globals
 from protein_folding.protein_folding_problem import (
     ProteinFoldingProblem,
 )

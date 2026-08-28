@@ -1,4 +1,5 @@
 # (C) Copyright IBM 2021, 2022.
+# Modified in 2026 for compatibility with Qiskit 2.x.
 #
 # This code is licensed under the Apache License, Version 2.0. You may
 # obtain a copy of this license in the LICENSE.txt file in the root directory
@@ -11,8 +12,8 @@
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Union
 
-from qiskit.algorithms import MinimumEigensolverResult
-from qiskit.opflow import PauliOp, PauliSumOp
+from qiskit_algorithms.minimum_eigensolvers import MinimumEigensolverResult
+from protein_folding.operators import OperatorBase, PauliOp, PauliSumOp, I, Z
 
 if TYPE_CHECKING:
     from .protein_folding_result import ProteinFoldingResult

@@ -1,4 +1,5 @@
 # (C) Copyright IBM 2021, 2022.
+# Modified in 2026 for compatibility with Qiskit 2.x.
 #
 # This code is licensed under the Apache License, Version 2.0. You may
 # obtain a copy of this license in the LICENSE.txt file in the root directory
@@ -12,7 +13,7 @@ import collections
 import logging
 from typing import Dict, DefaultDict, Tuple, Union, List
 
-from qiskit.opflow import OperatorBase, PauliSumOp, PauliOp
+from protein_folding.operators import OperatorBase, PauliOp, PauliSumOp, I, Z
 
 from ..peptide.beads.base_bead import BaseBead
 from ..peptide.beads.main_bead import MainBead

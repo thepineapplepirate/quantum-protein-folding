@@ -1,4 +1,5 @@
 # (C) Copyright IBM 2021, 2022.
+# Modified in 2026 for compatibility with Qiskit 2.x.
 #
 # This code is licensed under the Apache License, Version 2.0. You may
 # obtain a copy of this license in the LICENSE.txt file in the root directory
@@ -10,7 +11,7 @@
 """Utility resource methods."""
 import re
 
-from qiskit.opflow import PauliSumOp
+from protein_folding.operators import PauliSumOp
 
 
 def read_expected_file(path: str):

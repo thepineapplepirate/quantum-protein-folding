@@ -1,4 +1,5 @@
 # (C) Copyright IBM 2021, 2022.
+# Modified in 2026 for compatibility with Qiskit 2.x.
 #
 # This code is licensed under the Apache License, Version 2.0. You may
 # obtain a copy of this license in the LICENSE.txt file in the root directory
@@ -12,8 +13,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, List, Union
 
-from qiskit.algorithms.minimum_eigensolvers import MinimumEigensolverResult
-from qiskit.opflow import PauliOp, PauliSumOp
+from qiskit_algorithms.minimum_eigensolvers import MinimumEigensolverResult
+from protein_folding.operators import OperatorBase, PauliOp, PauliSumOp, I, Z
 
 from .interactions.interaction import Interaction
 from .penalty_parameters import PenaltyParameters
@@ -107,7 +108,18 @@ class ProteinFoldingProblem(SamplingProblem):
         # pylint: disable=import-outside-toplevel
         from .protein_folding_result import ProteinFoldingResult
 
-        probs = raw_result.eigenstate.binary_probabilities()
+        eigenstate = raw_result.eigenstate
+        if hasattr(eigenstate, "binary_probabilities"):
+            probs = eigenstate.binary_probabilities()
+        elif hasattr(eigenstate, "probabilities_dict"):
+            probs = eigenstate.probabilities_dict()
+        elif isinstance(eigenstate, dict):
+            probs = eigenstate
+        else:
+            raise TypeError(
+                "Unsupported eigensolver state representation: "
+                f"{type(eigenstate).__name__}"
+            )
         best_turn_sequence = max(probs, key=probs.get)
         return ProteinFoldingResult(
             unused_qubits=self.unused_qubits,
