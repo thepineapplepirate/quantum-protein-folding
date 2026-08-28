@@ -1,4 +1,5 @@
 # (C) Copyright IBM 2021, 2022.
+# Modified in 2026 for compatibility with Qiskit 2.x.
 #
 # This code is licensed under the Apache License, Version 2.0. You may
 # obtain a copy of this license in the LICENSE.txt file in the root directory
@@ -10,7 +11,7 @@
 """A class defining a main bead of a peptide."""
 from typing import Tuple
 
-from qiskit.opflow import PauliOp, OperatorBase
+from protein_folding.operators import OperatorBase, PauliOp, PauliSumOp, I, Z
 
 from .base_bead import BaseBead
 from ..chains.side_chain import SideChain
@@ -66,22 +67,22 @@ class MainBead(BaseBead):
                 (self._full_id - self._turn_qubits[0])
                 @ (self._full_id - self._turn_qubits[1])
             )
-        ).reduce()
+        ).simplify()
 
     def _build_turn_indicator_fun_1(self) -> OperatorBase:
         return (
             self._full_id
             ^ (self._turn_qubits[1] @ (self._turn_qubits[1] - self._turn_qubits[0]))
-        ).reduce()
+        ).simplify()
 
     def _build_turn_indicator_fun_2(self) -> OperatorBase:
         return (
             self._full_id
             ^ (self._turn_qubits[0] @ (self._turn_qubits[0] - self._turn_qubits[1]))
-        ).reduce()
+        ).simplify()
 
     def _build_turn_indicator_fun_3(self) -> OperatorBase:
-        return (self._full_id ^ (self._turn_qubits[0] @ self._turn_qubits[1])).reduce()
+        return (self._full_id ^ (self._turn_qubits[0] @ self._turn_qubits[1])).simplify()
 
     @property
     def side_chain(self) -> SideChain:

@@ -1,4 +1,5 @@
 # (C) Copyright IBM 2021, 2022.
+# Modified in 2026 for compatibility with Qiskit 2.x.
 #
 # This code is licensed under the Apache License, Version 2.0. You may
 # obtain a copy of this license in the LICENSE.txt file in the root directory
@@ -9,7 +10,7 @@
 # that they have been altered from the originals.
 """Tests QubitNumberReducer."""
 from test.protein_folding_test_case import ProteinFoldingTestCase
-from qiskit.opflow import I, Z
+from protein_folding.operators import I, Z
 from protein_folding.qubit_utils.qubit_number_reducer import (
     _find_unused_qubits,
     remove_unused_qubits,
